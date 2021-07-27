@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <title>Attesa PS Trentino</title>
+        <link rel = 'stylesheet' href="{{url_for('static', filename='css/main.css')}}">
+        {% block head %}{% endblock %}
+
+    </head>
+    <body>
+    {% block body %}{% endblock %}
+        <div class = "blank">
+
+        </div>
+
+        <h1>Stato affollamento pronto soccorsi del Trentino</h1>
+
+        <p class = 'b'>
+            Ospedale selezionato: {{ospedale}}
+        </p>
+        <p class = 'b'>
+            Stime dei tempi di attesa
+        </p>
+        <p>
+            Codice bianco: {{tempo_bianco}} min
+        </p>
+        <p>
+            Codice verde: {{tempo_verde}} min
+        </p>
+        <p>
+            Codice azzurro: {{tempo_azzurro}} min
+        </p>
+        <p>
+            Codice arancio: {{tempo_arancio}} min
+        </p>
+        <p>
+            Codice rosso: {{tempo_rosso}} min
+        </p>
+
+        <input class='b' type="button" value="Torna all'elenco" onclick="Goback()">
+        <script type = 'text/javascript'>
+        function Goback(){
+            window.history.back();
+
+        }
+
+        </script>
+
+    </body>
+</html>

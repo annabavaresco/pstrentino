@@ -1,0 +1,82 @@
+
+h1 {color:rgb(255, 255, 255); font-family: sans-serif;
+    font-size: 30pt;
+    padding-top: 30px; padding-bottom: 30px; padding-right: 700px; padding-left: 50px;
+    
+    
+}
+
+body {
+
+    font-family: sans-serif;
+    font-size: large;
+    background-image: url("../images/blurred.jpg");
+    
+    background-repeat: no-repeat;
+    background-position-x: 0px;
+    background-position-y: 0px;
+    background-size: 1400px;
+    
+}
+
+p {
+    padding-right: 800px;
+    padding-left: 40px
+    ;
+}
+
+p.b {
+    font-weight: bold;
+}
+
+
+select{display:block;width:310px;height:50px;padding:6px 12px;
+    font-size:20px;line-height:1.42857143;color:#fff;
+    background-color:rgb(58, 141, 173);background-image:none;border:3px solid #fff;
+    -webkit-box-shadow:inset 0 1px 1px rgb(255, 255, 255);
+    box-shadow:inset 0 1px 1px rgba(0,0,0,.075);}
+
+    
+select:focus,
+select:hover, input:hover {
+    
+    border: 2px solid rgb(255, 255, 255);
+    background-color: rgb(127, 204, 235)
+
+}
+
+select option {
+    background: rgb(116, 162, 179);
+    color: black;
+}
+
+/*input{display:block;width:150px;height:50px;padding:6px 12px;
+    font-size:20px;line-height:1.42857143;color:#fff;
+    background-color: rgb(58, 141, 173);background-image:none;border:3px solid #fff;
+    border-radius:4px;
+    box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+    margin-top: 0px;
+    }*/
+
+input{width:150px;height:50px; 
+        font-size:20px;color:#fff;
+        background-color: rgb(58, 141, 173);border:3px solid #fff;
+        box-shadow:inset 0 1px 1px rgba(0,0,0,.075);
+        
+        }
+    
+
+
+
+
+form {
+    padding-left: 40px;
+}
+
+
+.blank {
+    background-color:rgba(255, 255, 255, 0.829);
+    padding: 20px;
+    
+}
+

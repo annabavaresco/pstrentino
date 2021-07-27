@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <title>Attesa PS Trentino</title>
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel= "stylesheet"/>
+        
+        {% block head %}{% endblock %}
+
+    </head>
+
+    <body>
+    {% block body %}{% endblock %}
+        <div class="blank">
+           
+
+        </div>
+        <h1>Stato di affollamento dei pronto soccorsi del Trentino</h1>
+        <div class="main-paragraph">
+
+            <p>
+                In questa pagina sono disponibili dati relativi all'affollamento dei pronto soccorsi
+                di tutto il Trentino aggiornati regolarmente a intervalli di 10 minuti.
+                <img src="C:/Users/annab/Desktop/Uni/bdt/Progetto-LOCAL/docker-compose-ann/app/static/images">
+            </p>
+            
+            <p>
+                Seleziona un ospedale dall'elenco sottostante per ottenere una stima dei tempi di
+                attesa per ogni triage.
+            </p>
+            <form action="/result" method="POST">
+                <div id=s>
+                    <select class = 'select' id = "ps" name = 'ps' onchange="changeDetected()">
+
+                        <option value = 0 disabled selected>Selezionare pronto soccorso</option>
+                        <option value = "005-PS-PS">Cles</option>
+                        <option value = "014-PS-PS">Cavalese</option>
+                        <option value = "004-PS-PS">Borgo Valsugana</option>
+                        <option value = "010-PS-PS">Arco</option>
+                        <option value = "007-PS-PS">Tione</option>
+                        <option value = "006-PS-PS">Rovereto</option>
+                        <option value = "001-PS-PS">Trento</option>
+                        <option value = "001-PS-PSP">Trento-pediatrico</option>
+                        <option value = "001-PS-PSO">Trento-ortopedico</option>
+                        <option value = "001-PS-PSG">Trento-ginecologico</option>
+                        <option value = "001-PS-PSC">Trento-oculistico</option>
+
+
+                    </select>
+                </div>
+            <p>
+                <input class="b" type="submit" id = "button" value="Conferma" disabled>
+                <script type = 'text/javascript'>
+                    //document.getElementById("button").disabled = false;
+                    //window.alert(document.getElementById("ps").value)
+                    function changeDetected(){
+                        if (document.getElementById("ps").value != '0'){
+                            document.getElementById("button").disabled = false
+                            //window.alert(document.getElementById("ps").value)
+                        }
+                    }
+                </script>
+            </p>
+
+                <script type = 'text/javascript'>
+                    if (document.getElementById("ps").value == '0'){
+                        document.getElementById("button").disabled = true;
+                        }
+                </script>
+            </form>
+            
+            
+        </div>
+    </body>
+</html>

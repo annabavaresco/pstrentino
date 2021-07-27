@@ -1,0 +1,28 @@
+version: '3'
+services:
+  models_api:
+    image: models_api
+    build: ./models_api
+    container_name: models_api_container
+    ports: 
+      - "8501:8501"
+  api:
+    image: api
+    build: ./api
+    container_name: api
+    ports: 
+      - "5002:5000"
+  webpage:
+    image: app
+    build: ./app
+    container_name: app
+    env_file:
+      - app/.env
+    ports:
+      - "5003:5000"
+  
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6379:6379"
