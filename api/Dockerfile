@@ -1,7 +1,6 @@
-FROM python:3.6.13
+FROM python:3.8.2
 
 RUN pip install --upgrade pip
-
 
 WORKDIR /api
 
