@@ -2,6 +2,7 @@ import requests
 from datetime import datetime
 
 
+
 class Hospital:
 
     def __init__(self, code: str, waiting: dict(), managing: dict(), timestamp):
