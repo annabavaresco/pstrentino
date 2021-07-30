@@ -26,17 +26,3 @@ services:
     container_name: redis-container
     ports:
       - "6379:6379"
-
-  db:
-    image: mysql:5.7
-    container_name: "mysql_container"
-    volumes:
-      - ./data/db:/var/lib/db  # mapping outside and inside
-    ports:
-      - 3306:3306  # outside (random) port : inside port from the image
-    hostname: 
-      - 'emergencyroom.ci8zphg60wmc.us-east-2.rds.amazonaws.com'
-    environment:  
-      MYSQL_ROOT_PASSWORD: "emr00mtr3nt036"
-      MYSQL_USER: "admin"
-      MYSQL_PASSWORD: "emr00mtr3nt036"  # better use a different pwd from root

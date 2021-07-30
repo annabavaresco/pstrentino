@@ -1,7 +1,5 @@
 import requests
-import json
 from datetime import datetime
-import json
 
 
 class Hospital:
@@ -16,6 +14,10 @@ class Hospital:
 
 
 def from_dict_to_hosp(hospital):
+    '''
+        Takes as input one of the dictionaries of the json available in the apss api and converts
+        it into an instance of the "hospital" class.  
+    '''
 
     wait = {'white':int(hospital['risposta']['pronto_soccorso']['reparto']['attesa']['bianco']),\
             'green': int(hospital['risposta']['pronto_soccorso']['reparto']['attesa']['verde']),\
@@ -46,8 +48,12 @@ def from_dict_to_hosp(hospital):
 
 
 def comp_more_severe(triage, t_waiting):
-    #dato un oggetto della classe hospital, calcola quanti pazienti in t_waiting sono più gravi
-    # di quello del parametro 'triage'
+    '''
+        Takes as input the triage color and the attribute .waiting of an instance of the sclass "Hospital"
+        and outputs the number of patients having a level of priority which is higher than that of the 
+        input color.  
+    '''
+
     col_list = ['green', 'blue', 'orange', 'red']
     res = 0
     if triage == 'white':
@@ -61,10 +67,16 @@ def comp_more_severe(triage, t_waiting):
             res += t_waiting[c]
     elif triage == 'orange':
         res += t_waiting['red']
+    
     return res
 
 
 def compute_timeslot(timestamp):
+    '''
+        Takes as input the timestamp corresponding to the time of arrival and outputs an integer
+        identifying the specific timeslot. Since data from the apss api is updated every 10 minutes,
+        the time of arrival can only assume values between 1 and 144.
+    '''
     timeslot_dict = {}
     ind = 1
     for n in range(24):
@@ -80,7 +92,14 @@ def compute_timeslot(timestamp):
             ind += 1
 
     return timeslot_dict[timestamp.strftime("%H:%M:%S")]
+
+
 def get_numeric_code(str_code):
+    '''
+        Takes as input the code identifying the emergency room and converts it into an integer.
+        Since the emergency rooms are 11, the outputs of this finction can only range from 1
+        to 11.
+    '''
     osp_dict = {'001-PS-PSC': 1,
                 '001-PS-PSG': 2,
                 '001-PS-PSO': 3,
@@ -98,8 +117,9 @@ def get_numeric_code(str_code):
 
 def predict_white(hospital):
     '''
-    input: hospital
-    output: expected wait time for a patient arriving at the hospital specified as input with white color.
+    Takes as input an instance of the "hospital" class containing the data which has just been
+    retrieved from the apss api and outputs the expected wait time for a patient arriving at 
+    the hospital specified as input with white triage color.
     '''
     
     wd = hospital.timestamp.weekday()
@@ -109,13 +129,13 @@ def predict_white(hospital):
     ms = comp_more_severe(hospital.waiting, 'white')
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_WHITE:predict', json=d).json()
-    #pred = requests.post('http://localhost:8501/v1/models/model_WHITE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
 
 def predict_green(hospital):
     '''
-    input: hospital
-    output: expected wait time for a patient arriving at the hospital specified as input with green color.
+        Takes as input an instance of the "hospital" class containing the data which has just been
+        retrieved from the apss api and outputs the expected wait time for a patient arriving at 
+        the hospital specified as input with green triage color.
     '''
     
     wd = hospital.timestamp.weekday()
@@ -124,14 +144,14 @@ def predict_green(hospital):
     others = hospital.waiting['green']
     ms = comp_more_severe(hospital.waiting, 'green')
     d = {"instances": [[wd, ts, hc, others, ms]]}
-    #pred = requests.post('http://localhost:8501/v1/models/model_GREEN:predict', json=d).json()
     pred = requests.post('http://models_api:8501/v1/models/model_GREEN:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
 
 def predict_blue(hospital):
     '''
-    input: hospital
-    output: expected wait time for a patient arriving at the hospital specified as input with blue color.
+        Takes as input an instance of the "hospital" class containing the data which has just been
+        retrieved from the apss api and outputs the expected wait time for a patient arriving at 
+        the hospital specified as input with blue triage color.
     '''
     wd = hospital.timestamp.weekday()
     ts = compute_timeslot(hospital.timestamp)
@@ -139,14 +159,14 @@ def predict_blue(hospital):
     others = hospital.waiting['blue']
     ms = comp_more_severe(hospital.waiting, 'blue')
     d = {"instances": [[wd, ts, hc, others, ms]]}
-    #pred = requests.post('http://localhost:8501/v1/models/model_BLUE:predict', json=d).json()
     pred = requests.post('http://models_api:8501/v1/models/model_BLUE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
     
 def predict_orange(hospital):
     '''
-    input: hospital
-    output: expected wait time for a patient arriving at the hospital specified as input with orange color.
+        Takes as input an instance of the "hospital" class containing the data which has just been
+        retrieved from the apss api and outputs the expected wait time for a patient arriving at 
+        the hospital specified as input with orange triage color.
     '''
     wd = hospital.timestamp.weekday()
     ts = compute_timeslot(hospital.timestamp)
@@ -154,15 +174,15 @@ def predict_orange(hospital):
     others = hospital.waiting['orange']
     ms = comp_more_severe(hospital.waiting, 'orange')
     d = {"instances": [[wd, ts, hc, others, ms]]}
-    #pred = requests.post('http://localhost:8501/v1/models/model_ORANGE:predict', json=d).json()
     pred = requests.post('http://models_api:8501/v1/models/model_ORANGE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
     
 
 def predict_red(hospital):
     '''
-    input: hospital
-    output: expected wait time for a patient arriving at the hospital specified as input with red color.
+        Takes as input an instance of the "hospital" class containing the data which has just been
+        retrieved from the apss api and outputs the expected wait time for a patient arriving at 
+        the hospital specified as input with red triage color.
     '''
     wd = hospital.timestamp.weekday()
     ts = compute_timeslot(hospital.timestamp)
@@ -170,7 +190,6 @@ def predict_red(hospital):
     others = hospital.waiting['red']
     ms = comp_more_severe(hospital.waiting, 'red')
     d = {"instances": [[wd, ts, hc, others, ms]]}
-    #pred = requests.post('http://localhost:8501/v1/models/model_RED:predict', json=d).json()
     pred = requests.post('http://models_api:8501/v1/models/model_RED:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0].strip('-')
 

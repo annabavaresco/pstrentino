@@ -1,11 +1,11 @@
 from flask import Flask, render_template, url_for, request, redirect
 import requests
 import json
-#from flask_caching import Cache
+from flask_caching import Cache
 
 app = Flask(__name__, static_folder='static/css')
 app.static_folder = 'static'
-#app.config.from_object('config.Config')  # Set the configuration variables to the flask application
+#app.config.from_object('config.Config')  
 #cache = Cache(app)
 
 @app.route('/')
@@ -13,7 +13,7 @@ app.static_folder = 'static'
 def index():
     return render_template('index.html')
 
-#@cache.cached(timeout=60, query_string=True)
+#cache.cached(timeout=60, query_string=True)
 def get_prediction():
         req = requests.get('http://api:5000').json()
         return req
@@ -22,7 +22,7 @@ def get_prediction():
 
 def show_prediction():
     if request.method == 'POST':
-        ospedale = request.form['ps']
+        ospedale = request.form['er']
         hosp_dict = {
             "005-PS-PS": 'Cles',
             "014-PS-PS": 'Cavalese',
