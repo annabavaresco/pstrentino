@@ -301,12 +301,12 @@ def add_patient(pat: Patient, code: str, triage: str):
         Adds a patient to the queues json based on the hospital hode and triage color
         passed as input.
     '''
-    with open("Code_ps.json", "r") as f:
+    with open("queues.json", "r") as f:
         hospitals = json.load(f)
     p = from_patient_to_dict(pat)
     hospitals[code][triage].append(p)
 
-    with open("Code_ps.json", "w") as f:
+    with open("queues.json", "w") as f:
         json.dump(hospitals, f)
        
     
@@ -314,7 +314,7 @@ def remove_patient(num: int, end_timestamp, code, triage):
     '''
         Removes a patient from the quques json and stores it inside the database.
     '''
-    with open("Code_ps.json", "r") as f:
+    with open("queues.json", "r") as f:
         hospitals = json.load(f)
     if num > len(hospitals[code][triage]):
         raise Exception('You are trying to remove more patients than the ones waiting!')
@@ -329,22 +329,22 @@ def remove_patient(num: int, end_timestamp, code, triage):
             host = 'emergencyroom.ci8zphg60wmc.us-east-2.rds.amazonaws.com',
             port =  3306,
             user = 'admin',
-            database = 'prova',
+            database = 'er_trentino',
             password = 'emr00mtr3nt036'
             )
 
         connection.autocommit = True
         cursor = connection.cursor()
 
-        query = "insert into pazienti (id, triage, hospital, start, end, waiting_time,\
+        query = "insert into er_trentino.er_patients_stream (triage, hospital, start, end, wait_time,\
             others, more_severe, less_severe)\
-                values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-        cursor.execute(query, [p.patient_id, p.triage, p.hospital, p.t_start, p.t_end, \
+        cursor.execute(query, [p.triage, p.hospital, p.t_start, p.t_end, \
                         p.waiting_time, p.others,p.more_severe, p.less_severe])
         connection.close()
         
-    with open("Code_ps.json", "w") as f:
+    with open("queues.json", "w") as f:
         json.dump(hospitals, f)
             
 
@@ -458,4 +458,30 @@ def process_data_stream():
                     remove_patient(dim_att, current[c]['timestamp'], c, col)
             
     set_prev(current)
+
+def empty_queues():
+    '''
+        Removes all the queues presente in the "queues.json" file.
+    '''
+    with open("queues.json", "r") as f:
+        hospitals = json.load(f)
+        for h in hospitals:
+            for color in hospitals[h]:
+                hospitals[h][color] = [] 
+
+    with open("queues.json", "w") as f:
+        json.dump(hospitals, f)
+
+def empty_prev():
+    '''
+        Removes all data present in the "prev_hosp.json" file. 
+    '''
+    with open("prev_hosp.json", "r") as f:
+        prev = json.load(f)
+        prev = {}
+
+    with open("prev_hosp.json", "w") as f:
+        json.dump(prev, f)
+        
+
 

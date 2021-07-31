@@ -56,18 +56,18 @@ class Queue:
                 host = 'emergencyroom.ci8zphg60wmc.us-east-2.rds.amazonaws.com',
                 port =  3306,
                 user = 'admin',
-                database = 'prova',
+                database = 'er_trentino',
                 password = 'emr00mtr3nt036'
                 )
 
             connection.autocommit = True
             cursor = connection.cursor()
 
-            query = "insert into pazienti_1 (id, triage, hospital, start, end, waiting_time,\
+            query = "insert into er_patients_stream (triage, hospital, start, end, wait_time,\
                 others, more_severe, less_severe)\
-                    values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                    values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
-            cursor.execute(query, [p.patient_id, p.triage, p.hospital, p.t_start, p.t_end, \
+            cursor.execute(query, [p.triage, p.hospital, p.t_start, p.t_end, \
                         p.waiting_time, p.others, p.more_severe, p.less_severe])
             connection.close()
             
