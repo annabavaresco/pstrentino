@@ -1,3 +1,6 @@
+html, body {
+    height: 100%;
+}
 h1 {color:rgb(14, 168, 230);
     font-size: 30pt;
     padding-top: 40px; padding-bottom: 30px; padding-right: 700px; padding-left: 50px;
@@ -5,17 +8,18 @@ h1 {color:rgb(14, 168, 230);
     
 }
 
+
 body {
 
     font-family: sans-serif;
     
     font-size: large;
-    background-image: url("../images/blurred_mirrored.jpg");
+    background-image: url("../images/blurred_mirrored.jpg"); height: 100%;
     color:rgb(77, 75, 75);
     background-repeat: no-repeat;
     background-position-x: 0px;
     background-position-y: 0px;
-    background-size: 1400px;
+    background-size: cover;
     
 }
 
