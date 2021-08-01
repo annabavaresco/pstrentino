@@ -3,20 +3,23 @@ services:
   models_api:
     image: models_api
     build: ./models_api
-    container_name: models_api_container
+    container_name: models_api
+    restart: on-failure
     ports: 
       - "8501:8501"
   api:
     image: api
     build: ./api
     container_name: api
+    restart: on-failure
     ports: 
       - "5002:5000"
     depends_on: 
       - models_api
   redis:
     image: redis
-    container_name: redis-container
+    container_name: redis
+    restart: on-failure
     ports:
       - "6379:6379"
 
@@ -24,6 +27,7 @@ services:
     image: app
     build: ./app
     container_name: app
+    restart: on-failure
     env_file:
       - app/.env
     ports:
