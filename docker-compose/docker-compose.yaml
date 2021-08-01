@@ -12,6 +12,14 @@ services:
     container_name: api
     ports: 
       - "5002:5000"
+    depends_on: 
+      - models_api
+  redis:
+    image: redis
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+
   webpage:
     image: app
     build: ./app
@@ -20,9 +28,15 @@ services:
       - app/.env
     ports:
       - "5003:5000"
-  
-  redis:
-    image: redis
-    container_name: redis-container
+    depends_on: 
+      - api
+      - redis
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
     ports:
-      - "6379:6379"
+      - "80:80"
+    depends_on:
+      - app
+  

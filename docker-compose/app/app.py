@@ -5,15 +5,15 @@ from flask_caching import Cache
 
 app = Flask(__name__, static_folder='static/css')
 app.static_folder = 'static'
-#app.config.from_object('config.Config')  
-#cache = Cache(app)
+app.config.from_object('config.Config')  
+cache = Cache(app)
 
 @app.route('/')
 
 def index():
     return render_template('index.html')
 
-#cache.cached(timeout=60, query_string=True)
+cache.cached(timeout=60, query_string=True)
 def get_prediction():
         req = requests.get('http://api:5000').json()
         return req
