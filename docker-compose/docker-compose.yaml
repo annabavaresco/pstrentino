@@ -32,6 +32,7 @@ services:
       - api
       - redis
   nginx:
+    image: nginx
     container_name: nginx
     restart: always
     build: ./nginx
