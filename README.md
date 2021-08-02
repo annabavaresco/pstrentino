@@ -17,7 +17,7 @@ We develop a model that predicts Trentino emergency departments (ED) waiting tim
 
 ### Methods
 The project uses the following technologies:
-* SQL
+* MySQL
 * Redis
 * Flask
 * Docker
