@@ -1,4 +1,4 @@
-# Predictions of Waiting Time in Trentino ERs
+# Predictions of Waiting Times in Trentino ERs
 Developed by Anna Bavaresco, Sara Zuffi
 
 Project for Big Data Technologies course at the University of Trento, academic year 2020/2021.
