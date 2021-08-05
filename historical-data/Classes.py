@@ -1,5 +1,7 @@
 import mysql.connector
    
+   
+   
 class Hospital:
 
     def __init__(self, code: str, waiting: dict(), managing: dict(), timestamp):
@@ -9,7 +11,10 @@ class Hospital:
         self.managing = managing
         self.timestamp = timestamp
 
+      
+      
 class Patient:
+   
     def __init__(self, hospital, triage, others, more_severe, less_severe, t_start, previous = None):
         self.hospital = hospital
         self.triage = triage
@@ -21,7 +26,10 @@ class Patient:
         self.waiting_time = 0
         self.previous = previous
 
+      
+      
 class Queue: 
+   
     def __init__(self, hospital_code):
         self.hospital_code = hospital_code
         self.head = None
