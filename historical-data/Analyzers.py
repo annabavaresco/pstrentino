@@ -6,6 +6,8 @@ import requests
 import time
 from Converters import *
 
+
+
 def extract_data(start_timestamp: str, end_timestamp: str, hospital_code):
     '''
         Connects to the db hosted by Amazon and retrieves data about the patients arrived at
@@ -64,6 +66,7 @@ def comp_more_severe(triage, t_waiting):
     return res
 
 
+
 def comp_less_severe(triage, t_waiting):
     '''
         Takes as input the triage color and the attribute .waiting of an instance of the sclass "Hospital"
@@ -85,6 +88,8 @@ def comp_less_severe(triage, t_waiting):
         res += t_waiting['white']
     
     return res
+
+
 
 def comp_others(triage, t_waiting):
     '''
@@ -110,7 +115,8 @@ def add_patient(pat: Patient, code: str, triage: str):
 
     with open("queues.json", "w") as f:
         json.dump(hospitals, f)
-       
+  
+
     
 def remove_patient(num: int, end_timestamp, code, triage):
     '''
@@ -161,6 +167,7 @@ def get_prev():
     return ret
 
 
+
 def set_prev(hospitals: dict):
     '''
     Takes as input a dict where each key is the code associated with a hospital and writes
@@ -202,7 +209,6 @@ def process_data_stream():
     current_data_list = [from_dict_to_hosp(h) for h in current_raw_data]
     current = from_loh_to_dict(current_data_list)
     
-
 
     for c in queues:
         for col in triages:
@@ -261,6 +267,8 @@ def process_data_stream():
             
     set_prev(current)
 
+    
+    
 def empty_queues():
     '''
         Removes all the queues presente in the "queues.json" file.
@@ -274,6 +282,8 @@ def empty_queues():
     with open("queues.json", "w") as f:
         json.dump(hospitals, f)
 
+        
+        
 def empty_prev():
     '''
         Removes all data present in the "prev_hosp.json" file. 
