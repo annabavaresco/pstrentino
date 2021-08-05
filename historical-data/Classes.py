@@ -5,7 +5,6 @@ import mysql.connector
 class Hospital:
 
     def __init__(self, code: str, waiting: dict(), managing: dict(), timestamp):
-        
         self.code = code
         self.waiting = waiting
         self.managing = managing
