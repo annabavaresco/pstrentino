@@ -30,8 +30,8 @@ services:
     restart: on-failure
     env_file:
       - app/.env
-    ports:
-      - "5003:5000"
+    expose:
+      - 8080
     depends_on: 
       - api
       - redis

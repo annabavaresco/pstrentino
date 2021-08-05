@@ -8,8 +8,10 @@ ADD . /app
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5001
+#EXPOSE 5001
 
-ENTRYPOINT ["python"]
+# ENTRYPOINT ["python"]
 
-CMD ["app.py"]
+# CMD ["app.py"]
+ENTRYPOINT [ "uwsgi" ]
+CMD ["wsgi.ini"]

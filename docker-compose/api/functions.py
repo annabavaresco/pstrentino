@@ -127,7 +127,11 @@ def predict_white(hospital):
     ts = compute_timeslot(hospital.timestamp)
     hc = get_numeric_code(hospital.code)
     others = hospital.waiting['white']
+    # if others > 5:
+    #     others = 5
     ms = comp_more_severe(hospital.waiting, 'white')
+    # if ms > 10:
+    #     ms = 10
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_WHITE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
@@ -143,7 +147,11 @@ def predict_green(hospital):
     ts = compute_timeslot(hospital.timestamp)
     hc = get_numeric_code(hospital.code)
     others = hospital.waiting['green']
+    # if others > 5:
+    #     others = 5
     ms = comp_more_severe(hospital.waiting, 'green')
+    # if ms > 10:
+    #     ms = 10
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_GREEN:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
@@ -158,7 +166,11 @@ def predict_blue(hospital):
     ts = compute_timeslot(hospital.timestamp)
     hc = get_numeric_code(hospital.code)
     others = hospital.waiting['blue']
+    # if others >5:
+    #     others = 5
     ms = comp_more_severe(hospital.waiting, 'blue')
+    # if ms > 10: 
+    #     ms = 10
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_BLUE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
@@ -173,7 +185,11 @@ def predict_orange(hospital):
     ts = compute_timeslot(hospital.timestamp)
     hc = get_numeric_code(hospital.code)
     others = hospital.waiting['orange']
+    # if others > 5:
+    #     others = 5
     ms = comp_more_severe(hospital.waiting, 'orange')
+    # if ms > 10:
+    #     ms = 10
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_ORANGE:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0]
@@ -189,7 +205,11 @@ def predict_red(hospital):
     ts = compute_timeslot(hospital.timestamp)
     hc = get_numeric_code(hospital.code)
     others = hospital.waiting['red']
+    # if others > 5:
+    #     others = 5
     ms = comp_more_severe(hospital.waiting, 'red')
+    # if ms > 10:
+    #     ms = 10
     d = {"instances": [[wd, ts, hc, others, ms]]}
     pred = requests.post('http://models_api:8501/v1/models/model_RED:predict', json=d).json()
     return str(pred['predictions'][0][0]).split('.')[0].strip('-')
