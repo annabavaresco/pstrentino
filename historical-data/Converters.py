@@ -7,7 +7,6 @@ def from_dict_to_hosp(hospital):
         Takes as input a dictionary retrieved from the apss api json and converts it into an 
         instance of the "hospital" class.
     '''
-
     wait = {'white':int(hospital['risposta']['pronto_soccorso']['reparto']['attesa']['bianco']),\
             'green': int(hospital['risposta']['pronto_soccorso']['reparto']['attesa']['verde']),\
                 'blue': int(hospital['risposta']['pronto_soccorso']['reparto']['attesa']['azzurro']),\
@@ -24,8 +23,6 @@ def from_dict_to_hosp(hospital):
                        int(hospital['risposta']['pronto_soccorso']['reparto']['osservazione']['arancio']), \
             'red': int(hospital['risposta']['pronto_soccorso']['reparto']['ambulatorio']['rosso']) +
                      int(hospital['risposta']['pronto_soccorso']['reparto']['osservazione']['rosso'])}
-  
-
 
     ret = Hospital(hospital['risposta']['pronto_soccorso']['reparto']['codice'],
                     manage,
@@ -47,12 +44,12 @@ def from_lod_to_los(dictionaries_list):
     return ret
 
 
+
 def from_db_to_hospital(db_row):
     '''
         Takes as input data stored in one record of the database and converts it into 
         an instance of the "hospital" class.
     '''
-
     wait = {'white':db_row[2], 'green': db_row[6], \
         'blue': db_row[8], 'orange': db_row[10], 'red': db_row[12]}
     manage = {'white': db_row[3], 'green': db_row[7],\
@@ -60,6 +57,7 @@ def from_db_to_hospital(db_row):
     h = Hospital(db_row[1], manage, wait, db_row[0])
 
     return h
+
 
 
 def from_patient_to_dict(pat: Patient):
@@ -78,6 +76,8 @@ def from_patient_to_dict(pat: Patient):
     }
     return ret
 
+
+
 def from_dict_to_patient(d: dict):
     '''
         Takes as input a dict and returns an instance of the class "Patient".
@@ -87,7 +87,6 @@ def from_dict_to_patient(d: dict):
         end = None
         last = 0
     else:
-
         end = datetime.strptime(d["t_end"], '%Y-%m-%d %H:%M:%S')
         last = end - start
 
@@ -102,6 +101,7 @@ def from_dict_to_patient(d: dict):
     pat.waiting_time = last
     
     return pat
+
 
 
 def from_loh_to_dict(hospitals):

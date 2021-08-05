@@ -22,7 +22,6 @@ services:
     restart: on-failure
     ports:
       - "6379:6379"
-
   app:
     image: app
     build: ./app

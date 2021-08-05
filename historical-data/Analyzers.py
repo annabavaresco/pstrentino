@@ -6,15 +6,15 @@ import requests
 import time
 from Converters import *
 
+
+
 def extract_data(start_timestamp: str, end_timestamp: str, hospital_code):
     '''
         Connects to the db hosted by Amazon and retrieves data about the patients arrived at
         the emergency room identifies by "hospital_cose" between the "start_timestamp" and 
         the "end_timestamp".
         Hint: the timestamp string should have a format similar to the following one:
-
-            '2021-06-17 10:40:00'
-         
+            '2021-06-17 10:40:00' 
     ''' 
     start = datetime.strptime(start_timestamp, '%Y-%m-%d %H:%M:%S')
     end = datetime.strptime(end_timestamp, '%Y-%m-%d %H:%M:%S')
@@ -47,7 +47,6 @@ def comp_more_severe(triage, t_waiting):
         and outputs the number of patients having a level of priority which is higher than that of the 
         input color.  
     '''
-    
     col_list = ['green', 'blue', 'orange', 'red']
     res = 0
     if triage == 'white':
@@ -62,6 +61,7 @@ def comp_more_severe(triage, t_waiting):
     elif triage == 'orange':
         res += t_waiting['red']
     return res
+
 
 
 def comp_less_severe(triage, t_waiting):
@@ -85,6 +85,8 @@ def comp_less_severe(triage, t_waiting):
         res += t_waiting['white']
     
     return res
+
+
 
 def comp_others(triage, t_waiting):
     '''
@@ -110,7 +112,8 @@ def add_patient(pat: Patient, code: str, triage: str):
 
     with open("queues.json", "w") as f:
         json.dump(hospitals, f)
-       
+  
+
     
 def remove_patient(num: int, end_timestamp, code, triage):
     '''
@@ -153,27 +156,28 @@ def remove_patient(num: int, end_timestamp, code, triage):
 
 def get_prev():
     '''
-        Retrieves data about the previous hospital from the prev.hosp json file.-
+        Retrieves data about the previous hospital from the prev.hosp json file.
     '''
     with open("prev_hosp.json", "r") as f:
-        ret = json.load(f)
-    
+        ret = json.load(f)  
     return ret
+
 
 
 def set_prev(hospitals: dict):
     '''
-    Takes as input a dict where each key is the code associated with a hospital and writes
+    Takes as input a dict where each key is the code associated with a hospital and writes.
     it in the json file "prev_hosp.json"
     ''' 
-
     with open("prev_hosp.json", "w") as f:
         json.dump(hospitals, f)
 
 
 
 def process_data_stream():
-
+    '''
+    Process data ingested as json file and compute patients and related values: others, more_severe, less_severe.
+    '''
     triages = ['white', 'green', 'blue', 'orange', 'red']
     queues = ['001-PS-PSC','001-PS-PSG','001-PS-PSO','001-PS-PSP','001-PS-PS','006-PS-PS',\
         '007-PS-PS','010-PS-PS','004-PS-PS','014-PS-PS','005-PS-PS']
@@ -200,9 +204,7 @@ def process_data_stream():
     
     current_raw_data = requests.get('https://servizi.apss.tn.it/opendata/STATOPS001.json').json()
     current_data_list = [from_dict_to_hosp(h) for h in current_raw_data]
-    current = from_loh_to_dict(current_data_list)
-    
-
+    current = from_loh_to_dict(current_data_list)  
 
     for c in queues:
         for col in triages:
@@ -221,8 +223,7 @@ def process_data_stream():
                             comp_more_severe(col, current[c]['waiting']),\
                                 comp_less_severe(col, current[c]['waiting']), current[c]['timestamp']),c,col)
 
-                    remove_patient(increase_manage, current[c]['timestamp'], c, col)
-            
+                    remove_patient(increase_manage, current[c]['timestamp'], c, col)   
 
                 else:
                     n = increase_wait
@@ -261,6 +262,8 @@ def process_data_stream():
             
     set_prev(current)
 
+    
+    
 def empty_queues():
     '''
         Removes all the queues presente in the "queues.json" file.
@@ -274,6 +277,8 @@ def empty_queues():
     with open("queues.json", "w") as f:
         json.dump(hospitals, f)
 
+        
+        
 def empty_prev():
     '''
         Removes all data present in the "prev_hosp.json" file. 
