@@ -1,44 +1,10 @@
-from Classes import Hospital, Queue, Patient
+from Classes import Hospital, Patient
 import mysql.connector 
 from datetime import datetime, timedelta
 import json
 import requests
 import time
 from Converters import *
-
-
-
-def extract_data(start_timestamp: str, end_timestamp: str, hospital_code):
-    '''
-        Connects to the db hosted by Amazon and retrieves data about the patients arrived at
-        the emergency room identifies by "hospital_cose" between the "start_timestamp" and 
-        the "end_timestamp".
-        Hint: the timestamp string should have a format similar to the following one:
-            '2021-06-17 10:40:00' 
-    ''' 
-    start = datetime.strptime(start_timestamp, '%Y-%m-%d %H:%M:%S')
-    end = datetime.strptime(end_timestamp, '%Y-%m-%d %H:%M:%S')
-
-    connection = mysql.connector.connect(
-    host = 'emergencyroom.ci8zphg60wmc.us-east-2.rds.amazonaws.com',
-    port =  3306,
-    user = 'admin',
-    database = 'prova',
-    password = 'emr00mtr3nt036'
-    )
-
-    connection.autocommit = True
-    cursor = connection.cursor()
-
-    query = "SELECT * FROM prova.ers2 WHERE hospital_code = %s AND timestamp \
-             between %s AND %s"
-
-    cursor.execute(query, [hospital_code, start, end])
-    result = cursor.fetchall()
-    connection.close()
-
-    return result
-
 
 
 def comp_more_severe(triage, t_waiting):
@@ -278,7 +244,11 @@ def empty_queues():
         json.dump(hospitals, f)
 
         
-        
+
+
+# Batch processing version
+
+
 def empty_prev():
     '''
         Removes all data present in the "prev_hosp.json" file. 
@@ -289,6 +259,4 @@ def empty_prev():
 
     with open("prev_hosp.json", "w") as f:
         json.dump(prev, f)
-        
-
 
