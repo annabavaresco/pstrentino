@@ -38,6 +38,7 @@ The best solution we could came up with in order to compute waiting times involv
 5. making another request to the apss api and, again, convertin the new data into instances of the Hospital class
 6. comparing, for each emergency room and each triage, the new data with the ones stored in prev_hosp.json. This is the crucial part of the computation and is perfomed by the function process_data_stream() defined in the Analyzers.py module. The main idea behind this complex function is the following. By comparing new data with the json stored ones, it is possible to understand if (a) one or mode new patients entered the waiting room, (b) one or more patients who were waiting left the queue because they are being visited or (c) nothing changed. If a new patient arrives, a new instance of the class patient (defined in the Classes.py module) is created and temporarily saved int the queues.json file. If a patient leaves the queue, he or she is removed from the queues.json file and saved in a database table along with its data. An extract of the table is available in the image below. ![image](https://user-images.githubusercontent.com/74197386/128709831-137c1b98-0865-4366-b752-ae0253507d42.png)
 
+
 7. prev_hosp.json is updated with the current data.
 8. Repeat everything from step 1.
 
@@ -53,5 +54,19 @@ It is a Flask api which has the purpose of collecting the most recent data from 
 ##### App
 This component constitutes the serving layer of our project. It mainly consists of a Flask app which provides an interactive interface to the user, who can choose the emergency room for which he or she would like to know the expected waiting time. A screenshot of the graphical interface the user is presented with is available in the image below.
 ![image](https://user-images.githubusercontent.com/74197386/128715677-8e980d76-0cc0-4d3f-a239-b8dbf12333a3.png)
+
 The Flask app then sends a request to the previously described api in order to obtain the precictions and diplays the ones relative to the emergency room selected by the user by integrating them in the result.html template. After the first api call, the predictions are going to be saved for two minutes inside a redis cache (which will de bescribed in the next section) in order to make them quickly-accessible.   
-As for the application deployment, we opted for a wsgi server, with nginx handling the http incoming requests.
+As for the application deployment, we opted for a uwsgi server, with nginx handling the http incoming requests.
+Since the app directory is the one with the most complicated structure, it may be useful to give a closer look to its contents and their specific functions:
+* static: this folder contains the styling sheet for the webpages and the image used as background
+* templates: contains the html files rendered by the Flask app
+* .env is the configuration file with all the variables necessary to set the redis cache
+* config.py contains the Config() class used for cache configuration
+* flask_app.py starts the app and the cache 
+* uwsgi.ini defines the configuration for the uwsgi server
+* wsgi.py is the module where the app defined inside flask_app.py runs and is going to be used to start the uwsgi server 
+
+##### Redis
+
+##### Nginx
+It is used to route and handle the requests coming to the 80 port. 
