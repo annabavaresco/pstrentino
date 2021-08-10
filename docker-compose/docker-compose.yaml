@@ -1,12 +1,5 @@
 version: '3'
 services:
-  models_api:
-    image: models_api
-    build: ./models_api
-    container_name: models_api
-    restart: on-failure
-    ports: 
-      - "8501:8501"
   api:
     image: api
     build: ./api
@@ -14,8 +7,6 @@ services:
     restart: on-failure
     ports: 
       - "5002:5000"
-    depends_on: 
-      - models_api
   redis:
     image: redis
     container_name: redis
