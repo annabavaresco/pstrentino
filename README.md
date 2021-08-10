@@ -13,7 +13,7 @@ This project aims to predict waiting time in the emergency department of Trentin
 * Main components
 
 ### Overview
-We develop a model that predicts Trentino emergency departments (ED) waiting times in near time. The data have been collected from the Trentino Open Data portal.
+We develop a model that predicts Trentino emergency rooms (ERs) waiting times in near-time. The data have been collected from the Trentino Open Data portal.
 
 ### Methods
 The project uses the following technologies:
