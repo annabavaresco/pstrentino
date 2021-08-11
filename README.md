@@ -67,7 +67,7 @@ Since the app directory is the one with the most complicated structure, it may b
 * wsgi.py is the module where the app defined inside flask_app.py runs and is going to be used to start the uwsgi server 
 
 ##### Redis
-The purpose of the redis container is serving as a cache. As it is specified in the flasf_app.py module, the cache timeout is 2 minutes.
+The purpose of the redis container is serving as a cache. As it is specified in the flask_app.py module, the cache timeout is 2 minutes.
 
 ##### Nginx
 It is used to route and handle the requests coming to port 80. 
