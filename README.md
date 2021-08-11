@@ -14,6 +14,7 @@ This project aims to predict waiting time in the emergency department of Trentin
 
 ### Overview
 We develop a model that predicts Trentino emergency rooms (ERs) waiting times in near-time. The data have been collected from the Trentino Open Data portal.
+By clicking [here](http://ec2-35-177-232-103.eu-west-2.compute.amazonaws.com), it is possible to see the app we developed running on an Amazon EC2 instance.  
 
 ### Methods
 The project uses the following technologies:
@@ -45,17 +46,16 @@ The best solution we could came up with in order to compute waiting times involv
 #### Docker-compose
 The final result of our project is a Flask app displaying the expected waiting time for each triage color at the emergency room selected bu the user. In order to work effectively, the Flask application needs to interact with several other components and services, which are all integrated in the docker-compose.yaml file and listed below, along with a brief description. 
 
-##### Models api
-This component is built upon a tensorflow/serving image and has the purpose of serving the three Neural Network we implemented in order to predict waiting times. The Dockerfile for this image is present inside the models_api directory, together with the models themselves and a configuration file listing all of the models and their path. 
-
 ##### Api
-It is a Flask api which has the purpose of collecting the most recent data from the Trentino apss api, passing them to the right model-api in order to obtain the waiting time prediction and displaying all the predictions together for every triage color and every emergency room in a clean and tidy way inside a unique json file. The api directory contains the Dockerfile for this component, the api.py module where the Flask api is defined and the functions.py module which collects the auxiliary functions used to compute predictions for the new data.     
+This is the component where the actual machine learning happens. The easiest way to explain how it works is looking at the Dockerfile. After copying everything from the local folder to the Docker environment, the Dockerfile runs the module linear_models.py. This module retrieves the historical data by querying the Amazon-hosted database where they are stored, fits three linear models to it and finally saves them in the "models" directory. The same code we used in the linear_models.py module to develop the linear models is described in more depth, with appropriate explanations and annotations, inside the Colab Notebook "Emergency Room Trentino - Linear Models".
+The second important module launched by the Dockerfile is api.py, which creates a Flask api collecting all the predictions for all the emergency rooms together in a unique json file. More in detail, the module loads the linear models from the models folder, makes a GET request to the Trentino apss api in order to obtain the most recent data about the number of patients waiting at the emergency rooms and passes it to the model which then computes the predictions. 
+All the predictions are saved in json format and become available whenever posting a request to the localhost:5002 address. The functions.py module contains some auxiliary functions which are called by the api.py module and serve for data preparation and applying the predictive models to new data.   
 
 ##### App
-This component constitutes the serving layer of our project. It mainly consists of a Flask app which provides an interactive interface to the user, who can choose the emergency room for which he or she would like to know the expected waiting time. A screenshot of the graphical interface the user is presented with is available in the image below.
+This component constitutes the main serving layer of our project. It mainly consists of a Flask app which provides an interactive interface to the user, who can choose the emergency room for which he or she would like to know the expected waiting time. A screenshot of the graphical interface the user is presented with is available in the image below.
 ![image](https://user-images.githubusercontent.com/74197386/128715677-8e980d76-0cc0-4d3f-a239-b8dbf12333a3.png)
 
-The Flask app then sends a request to the previously described api in order to obtain the precictions and diplays the ones relative to the emergency room selected by the user by integrating them in the result.html template. After the first api call, the predictions are going to be saved for two minutes inside a redis cache (which will de bescribed in the next section) in order to make them quickly-accessible.   
+The Flask app then sends a request to the previously described api in order to obtain the precictions and diplays the ones relative to the emergency room selected by the user by integrating them in the result.html template. After the first api call, the predictions are going to be saved for two minutes inside a redis cache (which will de bescribed in the next section) in order to make them more quickly accessible.   
 As for the application deployment, we opted for a uwsgi server, with nginx handling the http incoming requests.
 Since the app directory is the one with the most complicated structure, it may be useful to give a closer look to its contents and their specific functions:
 * static: this folder contains the styling sheet for the webpages and the image used as background
@@ -70,4 +70,4 @@ Since the app directory is the one with the most complicated structure, it may b
 The purpose of the redis container is serving as a cache. As it is specified in the flasf_app.py module, the cache timeout is 2 minutes.
 
 ##### Nginx
-It is used to route and handle the requests coming to the 80 port. 
+It is used to route and handle the requests coming to port 80. 
