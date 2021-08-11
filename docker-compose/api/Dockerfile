@@ -6,6 +6,8 @@ WORKDIR /api
 
 ADD . /api
 
+RUN mkdir models
+
 RUN pip install -r requirements.txt
 
 RUN python linear_models.py
