@@ -4,7 +4,7 @@ Developed by Anna Bavaresco, Sara Zuffi
 Project for Big Data Technologies course at the University of Trento, academic year 2020/2021.
 \
 &nbsp;
-Our paper *Waiting Time Predictions in Trentino ERs* related to this repository is available XXX.
+Our paper *Waiting Time Predictions in Trentino ERs* related to this repository is available [here](https://docs.google.com/document/d/1ihTssGaq6pWx4sVkbFowT76X12OP8QVegTm5BH1fNFI/edit?usp=sharing).
 This project aims to predict waiting time in the emergency department of Trentino hospitals.
 
 ## Table of content
