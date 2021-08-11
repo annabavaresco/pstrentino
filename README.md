@@ -14,7 +14,7 @@ This project aims to predict waiting time in the emergency department of Trentin
 
 ### Overview
 We develop a model that predicts Trentino emergency rooms (ERs) waiting times in near-time. The data have been collected from the Trentino Open Data portal.
-By clicking [here](http://ec2-35-177-232-103.eu-west-2.compute.amazonaws.com), it is possible to see the app we developed running on an Amazon EC2 instance.  
+[Here](http://ec2-35-177-232-103.eu-west-2.compute.amazonaws.com) it is possible to see the app we developed running on an Amazon EC2 instance.  
 
 ### Methods
 The project uses the following technologies:
