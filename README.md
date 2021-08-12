@@ -5,7 +5,7 @@ Project for Big Data Technologies course at the University of Trento, academic y
 \
 &nbsp;
 Our paper *Waiting Time Predictions in Trentino ERs* is related to this repository.
-This project aims to predict waiting time in the emergency department of Trentino hospitals.
+This project aims to predict waiting time in the emergency rooms of Trentino hospitals.
 
 ## Table of content
 * Overview
