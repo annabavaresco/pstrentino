@@ -18,12 +18,13 @@ We develop a model that predicts Trentino emergency rooms (ERs) waiting times in
 
 ### Methods
 The project uses the following technologies:
+* AWS
 * MySQL
-* Redis
 * Flask
+* Redis
 * Nginx
+* uWSGI
 * Docker
-* Github
 
 ### Main components
 The architecture of our project is based upon two main blocks. The first one, developed inside the "historical data" directory, deals with data collection, data storage and building the predictive model. The second component, available in the "docker-compose" directory, is the one responsible for getting the last data available from the apss api, computing the expected waiting time and serving it though a flask application. 
