@@ -18,7 +18,6 @@ We develop a big data system that predicts Trentino emergency rooms' (ERs) waiti
 [Here](http://ec2-35-177-232-103.eu-west-2.compute.amazonaws.com) it is possible to see the web app we created running on an Amazon EC2 instance.  
 
 ## Methods
-\
 &nbsp;
 The project uses the following technologies:
 * AWS
@@ -30,12 +29,10 @@ The project uses the following technologies:
 * Docker
 
 ## Main components
-\
 &nbsp;
 The architecture of our project is based upon two main blocks. The first one, developed inside the "historical data" directory, deals with data collection, data storage and building the predictive model. The second component, available in the "docker-compose" directory, is the one responsible for getting the last data available from the apss api, computing the expected waiting time and serving it though a Flask application. 
 
 ### Historical data
-\
 &nbsp;
 In order to develop a machine learning model able to predict waiting times, it was first necessary to have some training data. The Python modules present inside the "historical data" folder serve precisely for this scope. 
 The Trentino APSS (Azienda Provinciale per i Servizi Sanitari) API only contains information about the number of patients waiting or being treated at the moment of the call, divided by emergency room and triage level. However, the exact waiting time of each patient is NOT provided by the API and therefore needs to be computed. 
@@ -52,19 +49,16 @@ The best solution we could came up with in order to compute waiting times involv
 8. Repeat everything from step 1.
 
 ### Docker-compose
-\
 &nbsp;
 The final result of our project is a Flask app displaying the expected waiting time for each triage color at the emergency room selected bu the user. In order to work effectively, the Flask application needs to interact with several other components and services, which are all integrated in the docker-compose.yaml file and listed below, along with a brief description. 
 
 #### API
-\
 &nbsp;
 This is the component where the actual Machine Learning happens. The easiest way to explain how it works is looking at the Dockerfile. After copying everything from the local folder to the Docker environment, the Dockerfile runs the module linear_models.py. This module retrieves the historical data by querying the Amazon-hosted database where they are stored, fits three linear models to it and finally saves them in the "models" directory. The same code we used in the linear_models.py module to develop the linear models is described in more depth, with appropriate explanations and annotations, inside the Colab Notebook "Emergency Room Trentino - Linear Models".
 The second important module launched by the Dockerfile is api.py, which creates a Flask api collecting all the predictions for all the emergency rooms in a unique json file. More in detail, the module loads the linear models from the models folder, makes a GET request to the Trentino APSS API in order to obtain the most recent data about the number of patients waiting in the emergency rooms and passes it to the model, which then computes the predictions. 
 All the predictions are saved in JSON format and become available whenever posting a request to the localhost:5002 address. The functions.py module contains some auxiliary functions which are called by the api.py module and serves for data preparation and applying the predictive models to new data.   
 
 #### App
-\
 &nbsp;
 This component constitutes the main serving layer of our project. It mainly consists of a Flask app which provides an interactive interface to the user, who can choose the emergency room for which he/she would like to know the expected waiting time. A screenshot of the graphical interface the user is presented with is available in the image below:
 ![image](https://user-images.githubusercontent.com/74197386/128715677-8e980d76-0cc0-4d3f-a239-b8dbf12333a3.png)
@@ -81,11 +75,9 @@ Since the app directory is the one with the most complicated structure, it may b
 * wsgi.py is the module where the app defined inside flask_app.py runs and is going to be used to start the uWSGI server 
 
 #### Redis
-\
 &nbsp;
 The purpose of the Redis container is serving as a cache. As it is specified in the flask_app.py module, the cache timeout is 2 minutes.
 
 #### NGINX
-\
 &nbsp;
 It is used to route and handle the requests coming to port 80. 
