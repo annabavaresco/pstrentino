@@ -107,7 +107,7 @@ def remove_patient(num: int, end_timestamp, code, triage):
         connection.autocommit = True
         cursor = connection.cursor()
 
-        query = "insert into er_trentino.er_patients_stream (triage, hospital, start, end, wait_time,\
+        query = "insert into er_trentino.patients (triage, hospital, start, end, wait_time,\
             others, more_severe, less_severe)\
                 values (%s, %s, %s, %s, %s, %s, %s, %s)"
 
