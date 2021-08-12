@@ -4,7 +4,7 @@ Developed by Anna Bavaresco, Sara Zuffi
 Project for Big Data Technologies course at the University of Trento, academic year 2020/2021.
 \
 &nbsp;
-Our paper *Waiting Time Predictions in Trentino ERs* related to this repository is available XXX.
+Our paper *Waiting Time Predictions in Trentino ERs* related to this repository is available [here](https://docs.google.com/document/d/1ihTssGaq6pWx4sVkbFowT76X12OP8QVegTm5BH1fNFI/edit?usp=sharing).
 This project aims to predict waiting time in the emergency department of Trentino hospitals.
 
 ## Table of content
@@ -55,7 +55,7 @@ All the predictions are saved in json format and become available whenever posti
 This component constitutes the main serving layer of our project. It mainly consists of a Flask app which provides an interactive interface to the user, who can choose the emergency room for which he or she would like to know the expected waiting time. A screenshot of the graphical interface the user is presented with is available in the image below.
 ![image](https://user-images.githubusercontent.com/74197386/128715677-8e980d76-0cc0-4d3f-a239-b8dbf12333a3.png)
 
-The Flask app then sends a request to the previously described api in order to obtain the precictions and diplays the ones relative to the emergency room selected by the user by integrating them in the result.html template. After the first api call, the predictions are going to be saved for two minutes inside a redis cache (which will de bescribed in the next section) in order to make them more quickly accessible.   
+The Flask app then sends a request to the previously described api in order to obtain the predictions and dsiplays the ones relative to the emergency room selected by the user by integrating them in the result.html template. After the first api call, the predictions are going to be saved for two minutes inside a redis cache (which will de bescribed in the next section) in order to make them more quickly accessible.   
 As for the application deployment, we opted for a uwsgi server, with nginx handling the http incoming requests.
 Since the app directory is the one with the most complicated structure, it may be useful to give a closer look to its contents and their specific functions:
 * static: this folder contains the styling sheet for the webpages and the image used as background
@@ -67,7 +67,7 @@ Since the app directory is the one with the most complicated structure, it may b
 * wsgi.py is the module where the app defined inside flask_app.py runs and is going to be used to start the uwsgi server 
 
 ##### Redis
-The purpose of the redis container is serving as a cache. As it is specified in the flasf_app.py module, the cache timeout is 2 minutes.
+The purpose of the redis container is serving as a cache. As it is specified in the flask_app.py module, the cache timeout is 2 minutes.
 
 ##### Nginx
 It is used to route and handle the requests coming to port 80. 
